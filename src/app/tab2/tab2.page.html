@@ -1,0 +1,15 @@
+<ion-icon ios="ios-bulb" md="md-bulb" class="theme" (click)="changeTheme()"></ion-icon>
+<p class="day">{{day}}</p>
+<p class="date">{{date}}</p>
+<div class="hr"></div>
+
+<ion-content>
+  <div *ngFor="let task of taskList">
+    <ion-card (click)="learnMore(task)" class="card">
+      <ion-card-header>
+        <ion-card-subtitle>{{task.taskDes}}</ion-card-subtitle>
+        <ion-card-title>{{task.task}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+</ion-content>
