@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import 'hammerjs';
+
 
 @Component({
   selector: 'app-tab2',
@@ -8,13 +10,9 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe],
 })
 export class Tab2Page {
-
   public day: string;
   public date: string;
   public taskList: any[];
-  public roughYear: string;
-  public roughMonth: string;
-  public roughDay: string;
   
   ngOnInit() {
     this.taskList = [ 
@@ -40,7 +38,8 @@ export class Tab2Page {
   }
 
   learnMore(task: any){
-
+    console.log("this is a swipe");
   }
+  
 
 }
