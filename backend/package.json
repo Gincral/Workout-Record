@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  },
+  "appShortName": "vac-backend",
+  "appLongName": "voice-analytics-chatbot-backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "docCoverage": "",
+    "lint": "",
+    "package-clean": "rm -rf ./tap_package_dir && mkdir tap_package_dir",
+    "package-master": "cp -rf ./app.js src *.json ./tap_package_dir",
+    "package-dev": "cp -rf ./app.js src *.json ./tap_package_dir",
+    "package-sandbox": "cp -rf ./app.js src *.json ./tap_package_dir"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.cooperators.ca/scm/vac/vac-backend.git"
+  }
+}
