@@ -1,6 +1,7 @@
 const user = require("../model/user");
 
 async function getUsers(req, res, next) {
+    console.log("/get user");
     const params = req.query;
     try {
         let foundUser;
@@ -16,6 +17,7 @@ async function getUsers(req, res, next) {
 }
 
 async function createUsers(req, res, next) {
+    console.log("/create user");
     const body = req.body;
     const newUser = new user({
         login: body.login,
