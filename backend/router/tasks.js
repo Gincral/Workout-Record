@@ -1,34 +1,58 @@
 const task = require("../model/task");
-const group = require("../model/group");
 
-function getTasks(req, res, next) {
-    console.log("haha");
+async function getTasks(req, res, next) {
+    const params = req.query;
+    try {
+        let getTasks = await task.find({ user_id: params._id });
+        res.json(getTasks);
+    } catch (err) {
+        res.json({ message: err });
+    }
 }
 
-function createTasks(req, res, next) {
-    // const body = req.body;
-    // const newFav = new Favourite({
-    //     upn: body.upn ? body.upn : "",
-    //     name: body.name ? body.name : "",
-    //     query: body.query ? body.query : ""
-    // });
-    // try {
-    //     const savedFavourite = await newFav.save();
-    //     res.json(savedFavourite);
-    // } catch (err) {
-    //     res.json({ message: err });
-    // }
+async function createTasks(req, res, next) {
+    const params = req.query;
+    const body = req.body;
+    if (!params._id) {
+        const newTask = new task({
+            name: body.name,
+            description: body.description,
+            groups: body.groups,
+            user_id: body.user_id,
+        });
+        try {
+            const task = await newTask.save();
+            res.json(task);
+        } catch (err) {
+            res.json({ message: err });
+        }
+    }else{
+        try {
+            const updatedTask = await task.updateOne(
+                { _id: params._id },
+                { name: body.name, description: body.description, groups: body.groups }
+            );
+            res.json(updatedTask);
+        } catch (err) {
+            res.json({ message: err });
+        }
+    }
 }
 
-function updateTasks(req, res, next) {
-}
-
-function deleteTasks(req, res, next) {
+async function deleteTasks(req, res, next) {
+    const params = req.query;
+    try {
+        const selectTask = await task.deleteOne({
+            _id: params._id
+        });
+        res.json(selectTask);
+    } catch (err) {
+        res.json({ message: err });
+    }
 }
 
 module.exports = {
     getTasks,
     createTasks,
-    updateTasks,
     deleteTasks,
 };

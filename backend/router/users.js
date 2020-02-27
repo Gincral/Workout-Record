@@ -1,17 +1,26 @@
 const user = require("../model/user");
 
 async function getUsers(req, res, next) {
-    // try{
-
-    // }
+    const params = req.query;
+    try {
+        let foundUser;
+        if (params._id) {
+            foundUser = await user.find({ _id: params._id });
+        } else {
+            foundUser = await user.find();
+        }
+        res.json(foundUser);
+    } catch (err) {
+        res.json({ message: err });
+    }
 }
 
 async function createUsers(req, res, next) {
     const body = req.body;
     const newUser = new user({
         login: body.login,
+        username: body.username ? body.username : "No Name",
         password: body.password ? body.password : "",
-        username: body.username ? body.username : "No Name"
     });
     try {
         const user = await newUser.save();
