@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
+import { throwError } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HttpService {
+  constructor(private http: HttpClient) {}
+
+  get( url: string, params: any ) {
+    const options = { headers: null, param: params };
+    return this.http.get(url, options);
+  }
+
+  post( url: string, body: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const options = { headers };
+    return this.http.post(url, body, options);
+  }
+
+  delete( url: string, params: any){
+    const options = { headers: null, param: params };
+    return this.http.delete(url, options);
+  }
+
+  private handleError(err: any) {
+    return throwError(err);
+  }
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { UserService } from '../service/user.service';
 import 'hammerjs';
 
 
@@ -27,10 +28,11 @@ export class Tab2Page {
     ];
   }
 
-  constructor (public datePipe: DatePipe){
+  constructor (public datePipe: DatePipe, private userService: UserService){
     const today = new Date();
     this.date = this.datePipe.transform(today, 'LLLL dd, yyyy');
     this.day = this.datePipe.transform(today, 'EEEE').toUpperCase();
+    this.userService.test();
   }
 
   changeTheme(){
