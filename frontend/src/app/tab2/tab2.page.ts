@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { UserService } from '../service/user.service';
+import { TaskService } from '../service/task.service';
 import 'hammerjs';
 
 
@@ -16,25 +17,20 @@ export class Tab2Page {
   public taskList: any[];
   
   ngOnInit() {
-    this.taskList = [ 
-      { task:"testing1", taskDes:"i dont know what to say"},
-      { task:"testing2", taskDes:"this is only for testing"},
-      { task:"testing3", taskDes:":p"},
-      { task:"testing4", taskDes:":p"},
-      { task:"testing5", taskDes:":p"},
-      { task:"testing6", taskDes:":p"},
-      { task:"testing7", taskDes:":p"},
-      { task:"testing8", taskDes:":p"},
-    ];
+    this.getTasks();
   }
 
-  constructor (public datePipe: DatePipe, private userService: UserService){
+  constructor (public datePipe: DatePipe, private userService: UserService, private taskService: TaskService){
     const today = new Date();
     this.date = this.datePipe.transform(today, 'LLLL dd, yyyy');
     this.day = this.datePipe.transform(today, 'EEEE').toUpperCase();
-    this.userService.test();
   }
 
+  async getTasks(){
+    this.taskService.getTasks("").subscribe((data)=>{
+      this.taskList = data;
+    });
+  }
   changeTheme(){
     console.log("change theme, not implement yet");
   }

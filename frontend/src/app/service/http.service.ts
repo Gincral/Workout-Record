@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +8,8 @@ import { throwError } from 'rxjs';
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  get( url: string, params: any ) {
-    const options = { headers: null, param: params };
+  get( url: string, params: any ): Observable<Object> {
+    const options = { headers: null, params: params };
     return this.http.get(url, options);
   }
 

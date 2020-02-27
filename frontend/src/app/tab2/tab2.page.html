@@ -7,8 +7,8 @@
   <div *ngFor="let task of taskList">
     <ion-card (click)="learnMore(task)" class="card" (swipe)="learnMore(task)">
       <ion-card-header>
-        <ion-card-subtitle>{{task.taskDes}}</ion-card-subtitle>
-        <ion-card-title>{{task.task}}</ion-card-title>
+        <ion-card-subtitle>{{task.description}}</ion-card-subtitle>
+        <ion-card-title>{{task.name}}</ion-card-title>
       </ion-card-header>
     </ion-card>
   </div>
