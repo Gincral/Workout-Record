@@ -7,11 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class TaskService {
 
+  public TASKLIST: any;
   constructor(private httpService: HttpService) { }
 
-  getTasks(id: String): Observable<any>{
+  getTasks(id: String){
     const url = "http://localhost:5000/task";
-    const params = { _id: "5e57daabbb1d4905fc89cb16" }
-    return this.httpService.get(url, params);
+    const params = { _id: id}
+    this.httpService.get(url, params).subscribe((data)=>{
+      this.TASKLIST = data;
+    });
   }
+
+
 }
