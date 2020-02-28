@@ -1,6 +1,7 @@
 const task = require("../model/task");
 
 async function getTasks(req, res, next) {
+    console.log("/get Tasks");
     const params = req.query;
     try {
         let getTasks = await task.find({ user_id: params._id });
@@ -11,6 +12,7 @@ async function getTasks(req, res, next) {
 }
 
 async function createTasks(req, res, next) {
+    console.log("/post Tasks");
     const params = req.query;
     const body = req.body;
     if (!params._id) {
@@ -19,6 +21,7 @@ async function createTasks(req, res, next) {
             description: body.description,
             groups: body.groups,
             user_id: body.user_id,
+            days: body.days,
         });
         try {
             const task = await newTask.save();
@@ -30,7 +33,7 @@ async function createTasks(req, res, next) {
         try {
             const updatedTask = await task.updateOne(
                 { _id: params._id },
-                { name: body.name, description: body.description, groups: body.groups }
+                { name: body.name, description: body.description, groups: body.groups, days: body.days }
             );
             res.json(updatedTask);
         } catch (err) {
@@ -40,6 +43,7 @@ async function createTasks(req, res, next) {
 }
 
 async function deleteTasks(req, res, next) {
+    console.log("/delete Tasks");
     const params = req.query;
     try {
         const selectTask = await task.deleteOne({
