@@ -5,6 +5,25 @@
 </ion-header>
 
 <ion-content>
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label position="stacked">Task Name<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required clearInput type="text" oninput="handleFirstNameValue(event)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Task Description</ion-label>
+      <ion-textarea ></ion-textarea>
+    </ion-item>
 
+    <ion-item>
+      <ion-label position="stacked">Groups</ion-label>
+      <ion-textarea ></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Days</ion-label>
+      <ion-textarea ></ion-textarea>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
