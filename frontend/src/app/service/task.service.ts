@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class TaskService {
 
   public TASKLIST: any;
+  public SELECTED_TASK: any;
   constructor(private httpService: HttpService) { }
 
   getTasks(id: String){
@@ -18,5 +19,7 @@ export class TaskService {
     });
   }
 
-
+  setSelectedTask(task: any) {
+    this.SELECTED_TASK = task;
+  }
 }

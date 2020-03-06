@@ -16,4 +16,8 @@ export class Tab3Page {
     this.taskList = this.taskservice.TASKLIST;
   }
 
+  setSelectedTask(task){
+    this.taskservice.setSelectedTask(task);
+  }
+
 }

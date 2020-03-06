@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { EditTaskPage } from '../tab3/edit-task/edit-task.page'
 
 const routes: Routes = [
   {
@@ -34,6 +35,16 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+          },
+        ]
+      },
+      {
+        path: 'edit-task',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../tab3/edit-task/edit-task.module').then(m => m.EditTaskPageModule)
           }
         ]
       },
@@ -55,4 +66,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }
