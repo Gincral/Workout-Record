@@ -3,17 +3,14 @@ const mongoose = require("mongoose");
 const taskSchema = new mongoose.Schema({
     name: String,
     description: String,
-    groups: [String],
+    groups: [{
+        times: Number,
+        weight: Number,
+        unit: String,
+        note: String,
+    },],
     user_id: String,
-    days: {
-        monday: Boolean,
-        tuesday: Boolean,
-        wednesday: Boolean,
-        thursday: Boolean,
-        friday: Boolean,
-        saturday: Boolean,
-        sunday: Boolean,
-    },
+    days: [ Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean ],
 });
 
 const Task = mongoose.model("Tasks", taskSchema);
