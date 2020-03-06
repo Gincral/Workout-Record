@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'; 
+import { TaskService } from '../service/task.service';
 
 @Component({
   selector: 'app-tab3',
@@ -11,6 +12,8 @@ export class Tab3Page {
   ngOnInit() {
   }
   
-  constructor() {}
+  constructor( private taskservice: TaskService ) {
+    this.taskList = this.taskservice.TASKLIST;
+  }
 
 }
