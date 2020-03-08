@@ -3,7 +3,7 @@ import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import '../styles/nav.css';
+import '../styles/Nav.css';
 
 
 
