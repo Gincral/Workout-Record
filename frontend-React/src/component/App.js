@@ -6,19 +6,16 @@ import Calendar from './Calendar';
 import EditPlans from './EditPlans';
 import Task from './Tasks';
 import '../styles/App.css'
-import { setTasksList } from '../actions';
+import { setTasksList, setTodaysTasksList } from '../actions';
 import TaskService from '../services/TaskService';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const some = () => (
-    <div>
-        <Calendar />
-    </div>
-);
-
-
-
+// const some = () => (
+//     <div>
+//         <Calendar />
+//     </div>
+// );
 
 class App extends React.Component {
 
@@ -26,15 +23,21 @@ class App extends React.Component {
         super(props);
     }
 
-    render() {
+    initialize = () =>{
         const { dispatch } = this.props;
         this.taskService = new TaskService();
-        this.taskService.getTasks('').then(data => {
+        this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
             dispatch(setTasksList(data));
+            dispatch(setTodaysTasksList(data));
         });
+    }
+
+    render() {
+        this.initialize();
         
         return (
             <div className="app">
+                <div className="app-body">
                 <BrowserRouter>
                     {/*history={BrowserHistory} */}
                     <Switch>
@@ -43,10 +46,8 @@ class App extends React.Component {
                         <Route path="/editPlans" exact component={EditPlans} />
                     </Switch>
                 </BrowserRouter>
-                <div className='app-nav'>
-                    <Nav />
                 </div>
-
+                <div className='app-nav'> <Nav /> </div>
             </div>
         );
     }
@@ -57,7 +58,6 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    
 });
 
 export default connect(mapStateToProps)(App);
