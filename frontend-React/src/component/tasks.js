@@ -14,7 +14,6 @@ class Task extends React.Component {
 
     render() {
         const { todaysTaskList } = this.props;
-    
         return (
             <div>
                 {todaysTaskList.map(task => (
