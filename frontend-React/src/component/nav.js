@@ -18,7 +18,7 @@ class Nav extends React.Component {
                 >
                     <BottomNavigationAction href="/calender" label="Calendar" icon={<EventNoteIcon />}  />
                     <BottomNavigationAction href="/" label="Workout" icon={<FitnessCenterIcon />} />
-                    <BottomNavigationAction href="/editPlans" label="Plans" icon={<ImportContactsIcon />} />
+                    <BottomNavigationAction href="/Plans" label="Edit Plans" icon={<ImportContactsIcon />} />
                 </BottomNavigation>
             </div>
         );

@@ -1,39 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { selectingTask } from '../actions';
+import TextField from '@material-ui/core/TextField';
+import '../styles/EditPlans.css';
 
 class EditPlans extends React.Component {
     constructor(props) {
-        super(props);
-    }
-
-    selectTask(task) {
-        console.log("click");
-        // const { dispatch } = this.props;
-        // dispatch(selectingTask(task));
-        // console.log(task);
+        super(props)
     }
 
     render() {
-        const { tasksList } = this.props;
+        return (<div>
+            <TextField id="standard-basic" label="Name" /><br />
+            <TextField id="standard-multiline-static" label="Description" multiline rows="3" />
+            <ExpansionPanel>
+                <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading}>Expansion Panel 1</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                        sit amet blandit leo lobortis eget.
+                    </Typography>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+        </div>)
 
-
-        return (
-            <div>
-                {tasksList.map(task => (
-                    <Card className="edit-plans-card" onClick={this.selectTask(task)}>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom> {task.description} </Typography>
-                            <Typography variant="h5" component="h2"> {task.name} </Typography>
-                        </CardContent>
-                    </Card>))}
-            </div>
-        );
     }
+
 }
 
 EditPlans.propTypes = {
@@ -41,7 +39,6 @@ EditPlans.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    tasksList: state.tasksList,
 });
 
 export default connect(mapStateToProps)(EditPlans);

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import BrowserHistory from 'react-history';
 import Nav from './Nav';
 import Calendar from './Calendar';
-import EditPlans from './EditPlans';
+import Plans from './Plans';
 import Task from './Tasks';
+import EditPlans from './EditPlans';
 import '../styles/App.css'
 import { setTasksList, setTodaysTasksList } from '../actions';
 import TaskService from '../services/TaskService';
@@ -39,15 +39,15 @@ class App extends React.Component {
             <div className="app">
                 <div className="app-body">
                 <BrowserRouter>
-                    {/*history={BrowserHistory} */}
                     <Switch>
                         <Route path="/calender" exact component={Calendar} />
                         <Route path="/" exact component={Task} />
-                        <Route path="/editPlans" exact component={EditPlans} />
+                        <Route path="/Plans" exact component={Plans} />
+                        <Route path="/Edit-Plans" exact component={EditPlans} />
                     </Switch>
                 </BrowserRouter>
                 </div>
-                <div className='app-nav'> <Nav /> </div>
+                <div className='app-nav'><Nav /></div>
             </div>
         );
     }
