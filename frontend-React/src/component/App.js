@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Nav from './Nav';
-import Calendar from './Calendar';
+import Nav from './nav';
+import Calendar from './calendar';
 import Plans from './Plans';
-import Task from './Tasks';
-import EditPlans from './EditPlans';
-import '../styles/App.css'
-import { setTasksList, setTodaysTasksList } from '../actions';
+import Task from './tasks';
+import EditPlans from './editPlans';
+import '../styles/app.css'
+import { setTasksList, setTodaysTasksList, selectingTask } from '../actions';
 import TaskService from '../services/TaskService';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,6 +29,12 @@ class App extends React.Component {
         this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
             dispatch(setTasksList(data));
             dispatch(setTodaysTasksList(data));
+            data.forEach(task => {
+                if (task.editing){
+                    dispatch(selectingTask(task));
+                    return;
+                }
+            });
         });
     }
 
@@ -42,8 +48,8 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/calender" exact component={Calendar} />
                         <Route path="/" exact component={Task} />
-                        <Route path="/Plans" exact component={Plans} />
-                        <Route path="/Edit-Plans" exact component={EditPlans} />
+                        <Route path="/plans" exact component={Plans} />
+                        <Route path="/edit-plans" exact component={EditPlans} />
                     </Switch>
                 </BrowserRouter>
                 </div>

@@ -9,11 +9,15 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
+import Slider from '@material-ui/core/Slider';
+import tasks from './tasks';
 
 class EditPlans extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = {
+            task: {},
             monday: false ? "outlined" : "contained",
             tuesday: false ? "outlined" : "contained",
             wednesday: false ? "outlined" : "contained",
@@ -21,7 +25,12 @@ class EditPlans extends React.Component {
             friday: false ? "outlined" : "contained",
             saturday: false ? "outlined" : "contained",
             sunday: false ? "outlined" : "contained",
+            groupsNumber: 5,
         }
+    }
+
+    findTask(tasksList){
+        
     }
 
     selectDay = (number, status) => {
@@ -51,11 +60,24 @@ class EditPlans extends React.Component {
 
     }
 
+    save = () => {
+        console.log("save");
+    }
+
+    cancel = () =>{
+        console.log("cancel");
+    }
+
     render() {
-        const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = this.state;
+        const { monday, tuesday, wednesday, thursday, friday, saturday, sunday, groupsNumber } = this.state;
+        const { tasksList, task } = this.props;
+        console.log(tasksList);
+        console.log(task);
         return (<div>
-            <TextField id="standard-basic" label="Name" /><br />
+            <TextField id="standard-basic" label="Name" value={task.name} /><br/>
             <TextField id="standard-multiline-static" label="Description" multiline rows="3" />
+            <Typography id="discrete-slider" gutterBottom> Groups:  </Typography>
+            <Slider defaultValue={groupsNumber} aria-labelledby="discrete-slider" valueLabelDisplay="auto" step={1} marks min={1} max={10} valueLabelDisplay="on"/>
             <ExpansionPanel>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -78,6 +100,9 @@ class EditPlans extends React.Component {
             <Button variant={friday} color="primary" onClick={() => { this.selectDay(5, friday) }} >Fri</Button>
             <Button variant={saturday} color="primary" onClick={() => { this.selectDay(6, saturday) }} >Sat</Button>
             <Button variant={sunday} color="primary" onClick={() => { this.selectDay(7, sunday) }} >Sun</Button>
+
+            <Button variant={monday} color="primary" onClick={this.save} >Save</Button>
+            <Button variant={monday} color="primary" onClick={this.cancel} >Cancel</Button>
         </div>)
 
     }
@@ -89,7 +114,8 @@ EditPlans.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    // selectedTask 
+    tasksList: state.tasksList,
+    task: state.selectedTask,
 });
 
 export default connect(mapStateToProps)(EditPlans);

@@ -11,6 +11,7 @@ const taskSchema = new mongoose.Schema({
     },],
     user_id: String,
     days: [ Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean ],
+    editing: Boolean,
 });
 
 const Task = mongoose.model("Tasks", taskSchema);

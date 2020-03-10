@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { selectingTask } from '../actions';
+import TaskService from '../services/TaskService';
+import Link from '@material-ui/core/Link';
 
 class Plans extends React.Component {
     constructor(props) {
@@ -12,23 +13,24 @@ class Plans extends React.Component {
     }
 
     selectTask = (task) => {
-        console.log("click");
-        const { dispatch } = this.props;
-        dispatch(selectingTask(task));
+        this.taskService = new TaskService();
+        this.taskService.startEditing(task);
     }
 
     render() {
         const { tasksList } = this.props;
         return (
             <div>
-                {tasksList.map(task => (
-                    <Card className="edit-plans-card" key={task._id} onClick={()=>{ this.selectTask(task) }} >
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom> {task.description} </Typography>
-                            <Typography variant="h5" component="h2"> {task.name} </Typography>
-                        </CardContent>
-                    </Card>
+                <Link href="/edit-plans">
+                    {tasksList.map(task => (
+                        <Card className="edit-plans-card" key={task._id} onClick={() => { this.selectTask(task) }} >
+                            <CardContent>
+                                <Typography color="textSecondary" gutterBottom> {task.description} </Typography>
+                                <Typography variant="h5" component="h2"> {task.name} </Typography>
+                            </CardContent>
+                        </Card>
                     ))}
+                </Link>
             </div>
         );
     }

@@ -22,6 +22,7 @@ async function createTasks(req, res, next) {
             groups: body.groups,
             user_id: body.user_id,
             days: body.days,
+            editing: false,
         });
         try {
             const task = await newTask.save();
@@ -33,7 +34,7 @@ async function createTasks(req, res, next) {
         try {
             const updatedTask = await task.updateOne(
                 { _id: params._id },
-                { name: body.name, description: body.description, groups: body.groups, days: body.days }
+                { name: body.name, description: body.description, groups: body.groups, days: body.days, editing: body.editing }
             );
             res.json(updatedTask);
         } catch (err) {
