@@ -1,13 +1,16 @@
-.app-body{
-    height: 90vh;
+.app{
+    width: 95%;
+    margin: auto;
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
 }
 
-.app{
-    /* width: 95%; */
-}
+.app-body{
+    height: 95vh;
+    overflow: scroll;
+    background-color: antiquewhite;
+} 
 
 .app-nav{
-    display: block;
     position: absolute;
     bottom: 0;
 }

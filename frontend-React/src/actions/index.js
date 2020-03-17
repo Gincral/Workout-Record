@@ -4,7 +4,17 @@ export const setTasksList = (list) => ({
 });
 
 export const setTodaysTasksList = (list) => ({
-    type: 'TODAYSTASKSLIST',
+    type: 'TODAYS_TASKSLIST',
+    payload: list,
+});
+
+export const setUnfinishedTasksList = (list) => ({
+    type: 'UNFINISHED_TASKSLIST',
+    payload: list,
+});
+
+export const setFinishedTasksList = (list) => ({
+    type: 'FINISHED_TASKSLIST',
     payload: list,
 });
 

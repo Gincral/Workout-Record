@@ -1,6 +1,6 @@
 export default (state=[], action) => {
     switch (action.type) {
-        case 'TODAYS_TASKSLIST':
+        case 'UNFINISHED_TASKSLIST':
             return action.payload;
         default:
             return state;

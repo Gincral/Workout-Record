@@ -6,7 +6,7 @@ import Plans from './Plans';
 import Task from './tasks';
 import EditPlans from './editPlans';
 import '../styles/app.css'
-import { setTasksList, setTodaysTasksList, selectingTask } from '../actions';
+import { setTasksList, setTodaysTasksList, selectingTask, setFinishedTasksList, setUnfinishedTasksList } from '../actions';
 import TaskService from '../services/TaskService';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,6 +29,9 @@ class App extends React.Component {
         this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
             dispatch(setTasksList(data));
             dispatch(setTodaysTasksList(data));
+            dispatch(setUnfinishedTasksList(data));
+            dispatch(setFinishedTasksList([]));
+            
             data.forEach(task => {
                 if (task.editing){
                     dispatch(selectingTask(task));
