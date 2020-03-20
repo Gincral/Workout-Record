@@ -5,16 +5,28 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import '../styles/Tasks.css';
-import { setFinishedTasksList } from '../actions';
-
+import { setFinishedTasksList, selectingTask, updateLogin } from '../actions';
+import { Button } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 class Task extends React.Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            array1: [],
+            array2: [],
+        }
     }
 
-    generateTime() {
+    setUp = () => {
+        const { todaysTasksList } = this.props;
+        this.setState({ array1: todaysTasksList });
+        this.setState({ array2: [] });
+    }
+
+    generateTime = () => {
         const DATE = new Date();
         let day;
         switch (DATE.getDay()) {
@@ -84,33 +96,61 @@ class Task extends React.Component {
 
     }
 
-    finishTask(task) {
-        const { unfinishedTasksList, finishedTasksList, dispatch } = this.props;
-        let array = [];
-        array.concat(unfinishedTasksList);
-        console.log(unfinishedTasksList[0]);
-        // const index = array.findIndex(task);
-        // console.log(index);
-        // dispatch(setFinishedTasksList(finishedTasksList.push(unfinishedTasksList[index])));
+    finishTask = (task) => {
+        // const { unfinishedTasksList, finishedTasksList, dispatch } = this.props;
+        // for (let i = 0; i < unfinishedTasksList.length; i++) {
+        //     if (task._id === unfinishedTasksList[i]._id) {
+        //         finishedTasksList.push(unfinishedTasksList[i]);
+        //         dispatch(setFinishedTasksList(finishedTasksList));
+        //         return;
+        //     }
+        // }
+        const { array1, array2 } = this.state;
+        for (let i = 0; i < array1.length; i++) {
+            if (task._id === array1[i]._id) {
+                array2.push(task)
+                this.setState({ array2: array2 });
+                array1.splice(i, 1);
+                this.setState({ array1: array1 });
+                return;
+            }
+        }
     }
 
-    undoTask(task) {
+    undoTask = (task) => {
+        const { array1, array2 } = this.state;
+        for (let i = 0; i < array2.length; i++) {
+            if (task._id === array2[i]._id) {
+                array1.push(task)
+                this.setState({ array1: array1 });
+                array2.splice(i, 1);
+                this.setState({ array2: array2 });
+                return;
+            }
+        }
+    }
 
+    logout = () =>{
+        this.props.dispatch(updateLogin(false));
     }
 
     render() {
-        const { list } = this.props;
-        const { unfinishedTasksList, finishedTasksList } = this.props;
+        const { unfinishedTasksList, finishedTasksList, selectedTask, todaysTasksList } = this.props;
+        const { array1, array2 } = this.state;
         const data = this.generateTime();
         return (
             <div>
+                <Button color="primary" onClick={this.setUp}>Click set the data</Button><br />
+                <Button color="primary" onClick={this.logout}>Logout</Button><br />
                 <a className="task-day">{data[0]}</a><br />
                 <a className="task-date">{data[1]}</a>
 
+                <FormControlLabel control={<Checkbox />} label="Secondary"/>
+
                 <br /><br /><a>tasks for today</a>
                 <hr />
-                {unfinishedTasksList.map(task => (
-                    <Card className="tasks-card" onClick={() => { this.finishTask(task) }} >
+                {array1.map(task => (
+                    <Card className="tasks-card" onClick={() => { this.finishTask(task) }} key={task._id}>
                         <CardContent>
                             <Typography variant="h5" component="h2"> {task.name} </Typography>
                             <Typography color="textSecondary"> {task.description} </Typography>
@@ -118,8 +158,8 @@ class Task extends React.Component {
                     </Card>))}
                 <br /><a>tasks done</a>
                 <hr />
-                {finishedTasksList.map(task => (
-                    <Card className="tasks-card">
+                {array2.map(task => (
+                    <Card className="tasks-card" onClick={() => { this.undoTask(task) }} key={task._id}>
                         <CardContent>
                             <Typography variant="h5" component="h2"> {task.name} </Typography>
                             <Typography color="textSecondary"> {task.description} </Typography>
@@ -137,8 +177,10 @@ Task.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+    selectedTask: state.selectedTask,
     unfinishedTasksList: state.unfinishedTasksList,
     finishedTasksList: state.finishedTasksList,
+    todaysTasksList: state.todaysTasksList,
 });
 
 export default connect(mapStateToProps)(Task);

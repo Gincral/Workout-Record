@@ -32,7 +32,6 @@ async function createUsers(req, res, next) {
     }
 }
 
-
 module.exports = {
     getUsers,
     createUsers,

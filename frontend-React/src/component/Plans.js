@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import TaskService from '../services/TaskService';
 import Link from '@material-ui/core/Link';
+import { selectingTask } from '../actions';
 
 class Plans extends React.Component {
     constructor(props) {
@@ -13,8 +13,8 @@ class Plans extends React.Component {
     }
 
     selectTask = (task) => {
-        this.taskService = new TaskService();
-        this.taskService.startEditing(task);
+        const { dispatch } = this.props;
+        dispatch(selectingTask(task));
     }
 
     render() {

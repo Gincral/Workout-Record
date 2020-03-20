@@ -22,3 +22,13 @@ export const selectingTask = (task) => ({
     type: 'SELECTED_TASK',
     payload: task,
 });
+
+export const ifUpdate = (bool) =>({
+    type: 'UPDATE',
+    payload: bool,
+});
+
+export const updateLogin = (bool) =>({
+    type: 'LOGIN',
+    payload: bool,
+});
