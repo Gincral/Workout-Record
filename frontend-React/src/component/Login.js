@@ -37,25 +37,25 @@ class Login extends React.Component {
         this.loginService.getUserId(login, password).then((data) => {
             console.log(data);
             if (data === "error") {
-
+                console.log("cant login");
             } else {
                 dispatch(updateLogin(true));
                 dispatch(setUserLogin(data));
-                this.initialize();
+                this.taskService = new TaskService();
+                this.taskService.getTasks(data).then((list) => {
+                    dispatch(setTasksList(list));
+                    dispatch(setTodaysTasksList(list));
+                    dispatch(setUnfinishedTasksList(list));
+                    dispatch(setFinishedTasksList([]));
+                    window.location.reload();
+                });
             }
         });
 
     }
 
     initialize = () => {
-        const { dispatch, userID } = this.props;
-        this.taskService = new TaskService();
-        this.taskService.getTasks(userID).then(data => {
-            dispatch(setTasksList(data));
-            dispatch(setTodaysTasksList(data));
-            dispatch(setUnfinishedTasksList(data));
-            dispatch(setFinishedTasksList([]))
-        });
+
     }
 
     handleLoginChange = (event) => {
