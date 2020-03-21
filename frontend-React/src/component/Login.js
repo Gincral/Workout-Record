@@ -10,9 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
-import TelegramIcon from '@material-ui/icons/Telegram';
+import TaskService from '../services/TaskService';
 import LoginService from '../services/LoginService';
-import {updateLogin} from '../actions';
+import { updateLogin, setUserLogin, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList } from '../actions';
 
 class Login extends React.Component {
 
@@ -33,16 +33,29 @@ class Login extends React.Component {
     }
 
     login = (login, password) => {
-        const {dispatch} = this.props;
-        this.loginService.getUserId(login, password).then((data)=>{
+        const { dispatch } = this.props;
+        this.loginService.getUserId(login, password).then((data) => {
             console.log(data);
-            if (data === "error"){
+            if (data === "error") {
 
-            }else{
+            } else {
                 dispatch(updateLogin(true));
+                dispatch(setUserLogin(data));
+                this.initialize();
             }
         });
 
+    }
+
+    initialize = () => {
+        const { dispatch } = this.props;
+        this.taskService = new TaskService();
+        this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
+            dispatch(setTasksList(data));
+            dispatch(setTodaysTasksList(data));
+            dispatch(setUnfinishedTasksList(data));
+            dispatch(setFinishedTasksList([]))
+        });
     }
 
     handleLoginChange = (event) => {
@@ -76,8 +89,10 @@ class Login extends React.Component {
                         }
                         labelWidth={70}
                     />
+                    <a>Forgot Password?</a>
                 </FormControl>
-                <Button color="primary" variant="contained" onClick={() => { this.login(login, password) }}>Login<TelegramIcon /></Button>
+                <Button color="primary" variant="contained" onClick={() => { this.login(login, password) }}>Login</Button>
+                <Button color="primary" variant="contained" >Sign Up </Button>
             </div>
         )
     }

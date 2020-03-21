@@ -6,8 +6,6 @@ import Plans from './Plans';
 import Task from './tasks';
 import EditPlans from './editPlans';
 import '../styles/app.css'
-import { setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, ifUpdate } from '../actions';
-import TaskService from '../services/TaskService';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Login from './Login';
@@ -24,17 +22,7 @@ class App extends React.Component {
         super(props);
     }
 
-    initialize = () => {
-        const { dispatch, update } = this.props;
-        this.taskService = new TaskService();
-        this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
-            dispatch(setTasksList(data));
-            dispatch(setTodaysTasksList(data));
-        });
-    }
-
     render() {
-        this.initialize();
         const { login } = this.props;
         return (
             <div className="app">

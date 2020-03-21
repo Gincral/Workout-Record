@@ -13,8 +13,13 @@ const store = createStore(
 );
 store.subscribe(() => {
     saveState({
+        tasksList: store.getState().tasksList,
+        todaysTasksList: store.getState.todaysTasksList,
         selectedTask: store.getState().selectedTask,
+        unfinishedTasksList: store.getState().unfinishedTasksList,
+        finishedTasksList: store.getState().finishedTasksList,
         login: store.getState().login,
+        userLogin: store.getState().userLogin,
     });
 });
 
