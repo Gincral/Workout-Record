@@ -11,14 +11,14 @@ class Nav extends React.Component {
     render() {
         return (
             <div className="nav-bar">
-                <BottomNavigation showLabels
+                <BottomNavigation showLabels className="nav-buttom"
                     // onChange={(event, newValue) => {
                     //     setValue(newValue);
                     // }}
                 >
-                    <BottomNavigationAction href="/calender" label="Calendar" icon={<EventNoteIcon />}  />
-                    <BottomNavigationAction href="/" label="Workout" icon={<FitnessCenterIcon />} />
-                    <BottomNavigationAction href="/Plans" label="Edit Plans" icon={<ImportContactsIcon />} />
+                    <BottomNavigationAction href="/calender" icon={<EventNoteIcon />}/>
+                    <BottomNavigationAction href="/" icon={<FitnessCenterIcon />} />
+                    <BottomNavigationAction href="/Plans" icon={<ImportContactsIcon />} />
                 </BottomNavigation>
             </div>
         );
