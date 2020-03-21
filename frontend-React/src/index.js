@@ -19,7 +19,7 @@ store.subscribe(() => {
         unfinishedTasksList: store.getState().unfinishedTasksList,
         finishedTasksList: store.getState().finishedTasksList,
         login: store.getState().login,
-        userLogin: store.getState().userLogin,
+        userID: store.getState().userID,
     });
 });
 

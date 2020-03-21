@@ -29,6 +29,6 @@ export const updateLogin = (bool) =>({
 });
 
 export const setUserLogin = (login) =>({
-    type: 'USER_LOGIN',
+    type: 'USER_ID',
     payload: login,
 });

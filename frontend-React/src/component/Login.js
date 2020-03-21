@@ -48,9 +48,9 @@ class Login extends React.Component {
     }
 
     initialize = () => {
-        const { dispatch } = this.props;
+        const { dispatch, userID } = this.props;
         this.taskService = new TaskService();
-        this.taskService.getTasks(process.env.REACT_APP_USER_ID).then(data => {
+        this.taskService.getTasks(userID).then(data => {
             dispatch(setTasksList(data));
             dispatch(setTodaysTasksList(data));
             dispatch(setUnfinishedTasksList(data));
@@ -104,7 +104,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-
+    userID: state.userID,
 });
 
 export default connect(mapStateToProps)(Login);

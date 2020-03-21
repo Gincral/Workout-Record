@@ -5,7 +5,7 @@ import selectedTaskReducer from './selectedTaskReducer';
 import setFinishedTasksListReducer from './setFinishedTasksListReducer';
 import setUnfinishedTasksListRducer from './setUnfinishedTasksListReducer';
 import updateLoginReducer from './updateLoginReducer';
-import setUserLoginReducer from './setUserLoginReducer';
+import setUserIDReducer from './setUserIDReducer';
 
 export default combineReducers({
     tasksList: setTasksListReducer,
@@ -14,5 +14,5 @@ export default combineReducers({
     unfinishedTasksList: setUnfinishedTasksListRducer,
     finishedTasksList: setFinishedTasksListReducer,
     login: updateLoginReducer,
-    userLogin: setUserLoginReducer,
+    userID: setUserIDReducer,
 });
