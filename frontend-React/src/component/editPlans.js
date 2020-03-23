@@ -9,100 +9,137 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/core/Slider';
-import tasks from './tasks';
+import TaskService from '../services/TaskService';
+import { setTasksList, selectingTask } from '../actions';
+import history from '../history';
 
 class EditPlans extends React.Component {
     constructor(props) {
         super(props)
-
+        const { task } = this.props;
         this.state = {
-            task: {},
-            monday: false ? "outlined" : "contained",
-            tuesday: false ? "outlined" : "contained",
-            wednesday: false ? "outlined" : "contained",
-            thursday: false ? "outlined" : "contained",
-            friday: false ? "outlined" : "contained",
-            saturday: false ? "outlined" : "contained",
-            sunday: false ? "outlined" : "contained",
-            groupsNumber: 5,
+            name: task.name,
+            groups: task.groups,
+            description: task.description,
+            days: task.days,
         }
-    }
-
-    findTask(tasksList){
-        
-    }
-
-    selectDay = (number, status) => {
-        switch (number) {
-            case 1:
-                status === "contained" ? this.setState({ monday: "outlined" }) : this.setState({ monday: "contained" });
-                break;
-            case 2:
-                status === "contained" ? this.setState({ tuesday: "outlined" }) : this.setState({ tuesday: "contained" });
-                break;
-            case 3:
-                status === "contained" ? this.setState({ wednesday: "outlined" }) : this.setState({ wednesday: "contained" });
-                break;
-            case 4:
-                status === "contained" ? this.setState({ thursday: "outlined" }) : this.setState({ thursday: "contained" });
-                break;
-            case 5:
-                status === "contained" ? this.setState({ friday: "outlined" }) : this.setState({ friday: "contained" });
-                break;
-            case 6:
-                status === "contained" ? this.setState({ saturday: "outlined" }) : this.setState({ saturday: "contained" });
-                break;
-            case 7:
-                status === "contained" ? this.setState({ sunday: "outlined" }) : this.setState({ sunday: "contained" });
-                break;
-        }
-
     }
 
     save = () => {
-        console.log("save");
+        const { task, dispatch, userID } = this.props;
+        const { name, description, groups, days } = this.state;
+        const selectedTask = {
+            _id: task._id,
+            name: name,
+            description: description,
+            groups: groups,
+            days: days,
+            user_id: task.user_id
+        }
+        dispatch(selectingTask(selectedTask));
+        
+        this.taskService = new TaskService();
+        this.taskService.editTasks(task._id, name, description, groups, days).then((data) => {
+            console.log(data);
+            this.taskService.getTasks(userID).then((list) => {
+                dispatch(setTasksList(list));
+                history.push('/plans');
+                window.location.reload();
+            });
+        });
     }
 
-    cancel = () =>{
-        console.log("cancel");
+    updateList(list, id, name, description, groups, days) {
+        for (let i = 0; i < list.length; i++) {
+            if (list[i]._id = id) {
+                list[i].name = name;
+                list[i].description = description;
+                list[i].groups = groups;
+                list[i].days = days;
+                return list;
+            }
+        }
+        return undefined;
+    }
+
+    cancel = () => {
+        history.push('/plans');
+        window.location.reload();
+    }
+
+    handleNameChange = (event) => {
+        this.setState({ name: event.target.value });
+    }
+
+    handleDescriptionChange = (event) => {
+        this.setState({ description: event.target.value });
+    }
+
+    handleGroupsNoteChange = (index, event) => {
+        const { groups } = this.state;
+        groups[index].note = event.target.value;
+        this.setState({ groups: groups });
+    }
+
+    handleGroupsTimesChange = (index, event) => {
+        const { groups } = this.state;
+        groups[index].times = event.target.value;
+        this.setState({ groups: groups });
+    }
+
+    handleGroupsWeightChange = (index, event) => {
+        const { groups } = this.state;
+        groups[index].weight = event.target.value;
+        this.setState({ groups: groups });
+    }
+
+    handleGroupsUnitChange = (index, event) => {
+        const { groups } = this.state;
+        groups[index].unit = event.target.value;
+        this.setState({ groups: groups });
+    }
+
+    selectDay = (index) => {
+        const { days } = this.state;
+        days[index - 1] = !days[index - 1];
+        this.setState({ days: days });
     }
 
     render() {
-        const { monday, tuesday, wednesday, thursday, friday, saturday, sunday, groupsNumber } = this.state;
-        const { tasksList, task } = this.props;
-        console.log(tasksList);
-        console.log(task);
+        const { name, description, groups, days } = this.state;
         return (<div>
-            <TextField id="standard-basic" label="Name" value={task.name} /><br/>
-            <TextField id="standard-multiline-static" label="Description" multiline rows="3" />
-            <Typography id="discrete-slider" gutterBottom> Groups:  </Typography>
-            <Slider defaultValue={groupsNumber} aria-labelledby="discrete-slider" valueLabelDisplay="auto" step={1} marks min={1} max={10} valueLabelDisplay="on"/>
-            <ExpansionPanel>
-                <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography>Expansion Panel 1</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget.
-                    </Typography>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <Button variant={monday} color="primary" onClick={() => { this.selectDay(1, monday) }} >Mon</Button>
-            <Button variant={tuesday} color="primary" onClick={() => { this.selectDay(2, tuesday) }} >Tue</Button>
-            <Button variant={wednesday} color="primary" onClick={() => { this.selectDay(3, wednesday) }} >Wed</Button>
-            <Button variant={thursday} color="primary" onClick={() => { this.selectDay(4, thursday) }} >Thu</Button>
-            <Button variant={friday} color="primary" onClick={() => { this.selectDay(5, friday) }} >Fri</Button>
-            <Button variant={saturday} color="primary" onClick={() => { this.selectDay(6, saturday) }} >Sat</Button>
-            <Button variant={sunday} color="primary" onClick={() => { this.selectDay(7, sunday) }} >Sun</Button>
-
-            <Button variant={monday} color="primary" onClick={this.save} >Save</Button>
-            <Button variant={monday} color="primary" onClick={this.cancel} >Cancel</Button>
+            <div className="edit-plans-title-bar">
+                <Button className="edit-plans-cancel" onClick={this.cancel}>Cancel</Button>
+                Edit Task
+                <Button className="edit-plans-primary" color="primary" onClick={this.save} >Save</Button>
+            </div>
+            <TextField id="standard-basic" label="Name" defaultValue={name} onChange={this.handleNameChange} /><br />
+            <TextField id="standard-basic" label="Description" defaultValue={description} onChange={this.handleDescriptionChange} />
+            <Typography id="discrete-slider" gutterBottom > Groups:  </Typography>
+            {groups.map((group, index) => (
+                <ExpansionPanel>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>{group.note + ":         " + group.times + "reps - " + group.weight + group.unit}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <TextField id="standard-basic" label="note: " defaultValue={group.note} onChange={(event) => { this.handleGroupsNoteChange(index, event) }} /><br />
+                        <TextField id="standard-basic" label="reps: " defaultValue={group.times} onChange={(event) => { this.handleGroupsTimesChange(index, event) }} />
+                        <TextField id="standard-basic" label="quantity" defaultValue={group.weight} onChange={(event) => { this.handleGroupsWeightChange(index, event) }} />
+                        <TextField id="standard-basic" label="unit" defaultValue={group.unit} onChange={(event) => { this.handleGroupsUnitChange(index, event) }} />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            ))}
+            <Button variant={!days[0] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(1) }} >Mon</Button>
+            <Button variant={!days[1] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(2) }} >Tue</Button>
+            <Button variant={!days[2] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(3) }} >Wed</Button>
+            <Button variant={!days[3] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(4) }} >Thu</Button>
+            <Button variant={!days[4] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(5) }} >Fri</Button>
+            <Button variant={!days[5] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(6) }} >Sat</Button>
+            <Button variant={!days[6] ? "outlined" : "contained"} color="primary" onClick={() => { this.selectDay(7) }} >Sun</Button>
         </div>)
 
     }
@@ -114,8 +151,8 @@ EditPlans.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    tasksList: state.tasksList,
     task: state.selectedTask,
+    userID: state.userID,
 });
 
 export default connect(mapStateToProps)(EditPlans);

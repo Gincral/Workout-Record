@@ -44,18 +44,10 @@ class Login extends React.Component {
                 this.taskService = new TaskService();
                 this.taskService.getTasks(data).then((list) => {
                     dispatch(setTasksList(list));
-                    dispatch(setTodaysTasksList(list));
-                    dispatch(setUnfinishedTasksList(list));
-                    dispatch(setFinishedTasksList([]));
                     window.location.reload();
                 });
             }
         });
-
-    }
-
-    initialize = () => {
-
     }
 
     handleLoginChange = (event) => {

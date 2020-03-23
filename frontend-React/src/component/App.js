@@ -9,6 +9,8 @@ import '../styles/app.css'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Login from './Login';
+import history from '../history';
+
 
 // const some = () => (
 //     <div>
@@ -28,7 +30,7 @@ class App extends React.Component {
             <div className="app">
                 <div className="app-body">
                     
-                    <BrowserRouter>
+                    <BrowserRouter history = {history}>
                         {login && <Switch>
                             <Route path="/calender" exact component={Calendar} />
                             <Route path="/" exact component={Task} />

@@ -5,10 +5,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import '../styles/Tasks.css';
-import { setFinishedTasksList, selectingTask, updateLogin, setUnfinishedTasksList } from '../actions';
+import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList } from '../actions';
 import { Button } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 class Task extends React.Component {
 
     constructor(props) {
@@ -18,12 +16,6 @@ class Task extends React.Component {
             array1: this.props.unfinishedTasksList,
             array2: this.props.finishedTasksList,
         }
-    }
-
-    setUp = () => {
-        const { todaysTasksList } = this.props;
-        this.setState({ array1: todaysTasksList });
-        this.setState({ array2: [] });
     }
 
     generateTime = () => {
@@ -48,7 +40,7 @@ class Task extends React.Component {
             case 6:
                 day = "saturday";
                 break;
-            case 7:
+            case 0:
                 day = "sunday";
                 break;
         }
@@ -91,6 +83,7 @@ class Task extends React.Component {
                 month = "December";
                 break;
         }
+        console.log(day);
         const date = month + " " + DATE.getDate() + ", " + DATE.getFullYear();
         return [day.toLocaleUpperCase(), date];
 
@@ -105,8 +98,8 @@ class Task extends React.Component {
                 this.setState({ array2: array2 });
                 array1.splice(i, 1);
                 this.setState({ array1: array1 });
-                dispatch(setFinishedTasksList(array2));
-                dispatch(setUnfinishedTasksList(array1));
+                // dispatch(setFinishedTasksList(array2));
+                // dispatch(setUnfinishedTasksList(array1));
                 return;
             }
         }
@@ -121,8 +114,8 @@ class Task extends React.Component {
                 this.setState({ array1: array1 });
                 array2.splice(i, 1);
                 this.setState({ array2: array2 });
-                dispatch(setFinishedTasksList(array2));
-                dispatch(setUnfinishedTasksList(array1));
+                // dispatch(setFinishedTasksList(array2));
+                // dispatch(setUnfinishedTasksList(array1));
                 return;
             }
         }
@@ -133,9 +126,32 @@ class Task extends React.Component {
         localStorage.clear();
     }
 
+    setTodaysList() {
+        const { dispatch, tasksList } = this.props;
+        console.log(tasksList);
+        let todaysList = [];
+        let index = (new Date()).getDay();
+        if (index === 0) {
+            index = 6;
+        } else {
+            index = index - 1;
+        }
+        console.log(index);
+        tasksList.forEach((task) => {
+            console.log(task);
+            if (task.days[index] === true) {
+                todaysList.push(task);
+            }
+        });
+        dispatch(setTodaysTasksList(todaysList));
+        dispatch(setUnfinishedTasksList(todaysList));
+        dispatch(setFinishedTasksList([]));
+    }
+
     render() {
         const { array1, array2 } = this.state;
         const data = this.generateTime();
+        // this.setTodaysList();
         return (
             <div>
                 <Button color="primary" onClick={this.logout}>Logout</Button><br />
@@ -166,15 +182,13 @@ class Task extends React.Component {
 
 Task.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    // unfinishedTasksList: PropTypes.array.isRequired,
-    unfinishedTasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
     selectedTask: state.selectedTask,
     unfinishedTasksList: state.unfinishedTasksList,
     finishedTasksList: state.finishedTasksList,
-    todaysTasksList: state.todaysTasksList,
+    tasksList: state.tasksList,
 });
 
 export default connect(mapStateToProps)(Task);
