@@ -1,0 +1,32 @@
+.login-body{
+    width: 90%;
+    margin: auto;
+}
+
+.login-title{
+    margin-top: 40%;
+}
+
+.login-input{
+    margin-top: 10%;
+}
+
+.login-input-login{
+    margin-bottom: 5%;
+}
+
+.login-input-forgot-password{
+    margin-top: 10px;
+    font-size: 14px;
+    float: right;
+}
+
+.login-submit-btn{
+    margin-top: 20px;
+    width: 100%;
+}
+
+.login-sign-up{
+    text-align: center;
+    font-size: 14px;
+}

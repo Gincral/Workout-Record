@@ -1,18 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Button from '@material-ui/core/Button';
+import Button from 'react-bootstrap/Button';
 import TaskService from '../services/TaskService';
 import LoginService from '../services/LoginService';
 import { updateLogin, setUserLogin, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList } from '../actions';
+import '../styles/login.css';
 
 class Login extends React.Component {
 
@@ -44,6 +41,9 @@ class Login extends React.Component {
                 this.taskService = new TaskService();
                 this.taskService.getTasks(data).then((list) => {
                     dispatch(setTasksList(list));
+                    dispatch(setTodaysTasksList(list));
+                    dispatch(setFinishedTasksList([]));
+                    dispatch(setUnfinishedTasksList(list));
                     window.location.reload();
                 });
             }
@@ -61,30 +61,22 @@ class Login extends React.Component {
     render() {
         const { showPassword, password, login } = this.state;
         return (
-            <div>
-                <TextField id="outlined-basic" label="Login" variant="outlined" margin="dense" onChange={this.handleLoginChange} />
-                <FormControl margin="dense" variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        onChange={this.handlePasswordChange}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton aria-label="toggle password visibility"
-                                    onClick={() => { this.showPassword(showPassword) }}
-                                    edge="end"
-                                >
-                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        labelWidth={70}
-                    />
-                    <a>Forgot Password?</a>
-                </FormControl>
-                <Button color="primary" variant="contained" onClick={() => { this.login(login, password) }}>Login</Button>
-                <Button color="primary" variant="contained" >Sign Up </Button>
+            <div className='login-body'>
+                <h1 className='login-title'>Workout Record<br/>(need logo)</h1>
+                <div className='login-input'>
+                <Form.Control className='login-input-login' type="text" placeholder="Enter login" onChange={this.handleLoginChange} />
+                <InputGroup>
+                    <Form.Control type={showPassword ? 'text' : 'password'} placeholder="Password" onChange={this.handlePasswordChange} />
+                    <InputGroup.Append>
+                        <InputGroup.Text id="basic-addon2" onClick={()=>{ this.showPassword(showPassword)}} >{showPassword ? <Visibility /> : <VisibilityOff />}</InputGroup.Text>
+                    </InputGroup.Append>
+                </InputGroup>
+                <a className="login-input-forgot-password" href='https://github.com/Gincral'>Forgot Password?</a><br/>
+                <Button className="login-submit-btn" color="primary" onClick={() => { this.login(login, password) }}>Log In</Button>
+                </div>
+                <hr />
+                <div className="login-sign-up">Dont have an account? <a href='https://github.com/Gincral'>Sign Up</a>.</div>
+
             </div>
         )
     }
