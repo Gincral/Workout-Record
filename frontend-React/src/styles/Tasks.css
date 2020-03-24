@@ -1,3 +1,92 @@
-.tasks-card{
-    margin-top: 10px;
+.tasks-top-bar{
+    height: 50px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    display: block !important;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    background-color: white;
+}
+
+.tasks-top-bar-title{
+    text-align: center;
+}
+
+.tasks-top-bar-icon{
+    position: absolute ;
+    right: 5px;
+    top: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.tasks-body{
+    padding-top: 60px;
+    background-color: #fafafa;
+}
+
+.task-day{
+    font-size: 40px;
+    font-weight: 600;
+    margin-left: 10%;
+}
+
+.task-date{
+    font-size: 20px;
+    margin-top: -15px;
+    margin-left: 12%;
+}
+
+hr{
+    width: 95%;
+}
+
+.task-title{
+    margin-top: 10%;
+    font-size: 14px;
+    margin-left: 2.5%;
+}
+
+.task-title-hr{
+    margin-top:0;
+}
+
+.tasks-task-name{
+    font-size: 22px;
+}
+
+.tasks-task-description{
+    font-size: 14px;
+    margin-bottom: -3px;
+    margin-left: 2px;
+}
+
+.tasks-task-done-btn{
+    font-size: 25px !important;
+    width: 32px;
+    height: 30px;
+    float: right;
+    margin-top: -40px;
+}
+
+.tasks-expansion-panel{
+    margin: auto;
+    width: 95% !important;
+    border-left: transparent;
+    margin-bottom: 10px;
+}
+
+.tasks-drawer-user-name{
+    color: royalblue;
+    margin-bottom: -10px;
+    text-align: center;
+}
+
+.tasks-drawer-options{
+    margin-left: 10%;
+}
+
+.tasks-drawer-icon{
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 20px !important;
+    margin-right: 5px;
 }

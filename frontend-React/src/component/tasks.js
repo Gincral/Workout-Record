@@ -1,18 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import '../styles/Tasks.css';
 import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList } from '../actions';
-import { Button } from '@material-ui/core';
+import Drawer from "@material-ui/core/Drawer";
+import List from '@material-ui/core/List';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import Button from 'react-bootstrap/Button';
+import CheckIcon from '@material-ui/icons/Check';
+import ReplayIcon from '@material-ui/icons/Replay';
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import PublishIcon from '@material-ui/icons/Publish';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 class Task extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            openDrawer: false,
             array1: this.props.unfinishedTasksList,
             array2: this.props.finishedTasksList,
         }
@@ -98,8 +112,8 @@ class Task extends React.Component {
                 this.setState({ array2: array2 });
                 array1.splice(i, 1);
                 this.setState({ array1: array1 });
-                // dispatch(setFinishedTasksList(array2));
-                // dispatch(setUnfinishedTasksList(array1));
+                dispatch(setFinishedTasksList(array2));
+                dispatch(setUnfinishedTasksList(array1));
                 return;
             }
         }
@@ -114,14 +128,14 @@ class Task extends React.Component {
                 this.setState({ array1: array1 });
                 array2.splice(i, 1);
                 this.setState({ array2: array2 });
-                // dispatch(setFinishedTasksList(array2));
-                // dispatch(setUnfinishedTasksList(array1));
+                dispatch(setFinishedTasksList(array2));
+                dispatch(setUnfinishedTasksList(array1));
                 return;
             }
         }
     }
 
-    logout = () =>{
+    logout = () => {
         this.props.dispatch(updateLogin(false));
         localStorage.clear();
     }
@@ -148,33 +162,91 @@ class Task extends React.Component {
         dispatch(setFinishedTasksList([]));
     }
 
+    toggleDrawer = (bool) => {
+        this.setState({ openDrawer: bool });
+    };
+
     render() {
-        const { array1, array2 } = this.state;
+        const { array1, array2, openDrawer } = this.state;
         const data = this.generateTime();
-        // this.setTodaysList();
         return (
             <div>
-                <Button color="primary" onClick={this.logout}>Logout</Button><br />
-                <a className="task-day">{data[0]}</a><br />
-                <a className="task-date">{data[1]}</a>
-                <br /><br /><a>tasks for today</a>
-                <hr />
-                {array1.map(task => (
-                    <Card className="tasks-card" onClick={() => { this.finishTask(task) }} key={task._id}>
-                        <CardContent>
-                            <Typography variant="h5" component="h2"> {task.name} </Typography>
-                            <Typography color="textSecondary"> {task.description} </Typography>
-                        </CardContent>
-                    </Card>))}
-                <br /><a>tasks done</a>
-                <hr />
-                {array2.map(task => (
-                    <Card className="tasks-card" onClick={() => { this.undoTask(task) }} key={task._id}>
-                        <CardContent>
-                            <Typography variant="h5" component="h2"> {task.name} </Typography>
-                            <Typography color="textSecondary"> {task.description} </Typography>
-                        </CardContent>
-                    </Card>))}
+                <div className='tasks-top-bar'>
+                    <br />
+                    <h6 className='tasks-top-bar-title'> Today's Tasks </h6>
+                    <PersonOutlineIcon className='tasks-top-bar-icon' fontSize="large" onClick={() => { this.toggleDrawer(true) }} />
+                </div>
+                <div className='tasks-body'>
+                    <div className="task-day">{data[0]}</div>
+                    <div className="task-date">{data[1]}</div>
+                    <div className="task-title">
+                        <PlaylistAddIcon style={{ color: 'rgba(0, 0, 0, 0.6)' }} />
+                        UNFINISHED TASKS
+                        </div>
+                    <hr className="task-title-hr" />
+                    {array1.map(task => (
+                        <div className="tasks-expansion-panel">
+                            <ExpansionPanel >
+                                <ExpansionPanelSummary aria-controls="panel1a-content" id="panel1a-header" >
+                                    <div>
+                                        <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
+                                        <div className='tasks-task-name'> {task.name} </div>
+                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-success" size="sm" className='tasks-task-done-btn' onClick={() => { this.finishTask(task) }}><CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                    </div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <div>
+                                        {task.groups.map(group => (
+                                            <Typography>{group.note + ": " + group.times + " reps - " + group.weight + group.unit}</Typography>
+                                        ))}
+                                    </div>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                    ))}
+                    <div className="task-title">
+                        <PlaylistAddCheckIcon style={{ color: 'rgba(0, 0, 0, 0.6)' }} />
+                        TASKS DONE
+                    </div>
+                    <hr className="task-title-hr" />
+                    {array2.map(task => (
+                        <div className="tasks-expansion-panel">
+                            <ExpansionPanel style={{ borderLeft: "transparent" }}>
+                                <ExpansionPanelSummary aria-controls="panel1a-content" id="panel1a-header" >
+                                    <div>
+                                        <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
+                                        <div className='tasks-task-name'> {task.name} </div>
+                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-success" size="sm" className='tasks-task-done-btn' onClick={() => { this.undoTask(task) }}><ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                    </div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <div>
+                                        {task.groups.map(group => (
+                                            <Typography>{group.note + ": " + group.times + " reps - " + group.weight + group.unit}</Typography>
+                                        ))}
+                                    </div>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>))}
+                </div>
+
+                <div className='tasks-drawer'>
+                    <React.Fragment key={"bottom"}>
+                        <Drawer anchor={"bottom"} open={openDrawer} onClose={() => { this.toggleDrawer(false) }}>
+                            <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
+                                <List>
+                                    
+                                    <p className="tasks-drawer-user-name">User Name</p>
+                                    <hr />
+                                    <p className="tasks-drawer-options"><AccessibilityIcon className='tasks-drawer-icon' />Change User Name</p>
+                                    <p className="tasks-drawer-options"><PublishIcon className='tasks-drawer-icon' />Upload Data</p>
+                                    <p className="tasks-drawer-options"><GetAppIcon className='tasks-drawer-icon' />Download Data</p>
+                                    <p className="tasks-drawer-options" onClick={this.logout}><ExitToAppIcon className='tasks-drawer-icon' />log out</p>
+                                </List>
+                            </div>
+                        </Drawer>
+                    </React.Fragment>
+                </div>
             </div>
         );
     }
