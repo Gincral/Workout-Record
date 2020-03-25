@@ -22,6 +22,7 @@
 .tasks-body{
     padding-top: 60px;
     background-color: #fafafa;
+    min-height: 95vh;
 }
 
 .task-day{

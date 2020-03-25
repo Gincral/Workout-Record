@@ -36,17 +36,7 @@ class EditPlans extends React.Component {
             days: days,
             user_id: task.user_id
         }
-        dispatch(selectingTask(selectedTask));
-        
-        this.taskService = new TaskService();
-        this.taskService.editTasks(task._id, name, description, groups, days).then((data) => {
-            console.log(data);
-            this.taskService.getTasks(userID).then((list) => {
-                dispatch(setTasksList(list));
-                history.push('/plans');
-                window.location.reload();
-            });
-        });
+        dispatch(selectingTask(selectedTask));  
     }
 
     updateList(list, id, name, description, groups, days) {

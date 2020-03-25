@@ -1,0 +1,57 @@
+.plans-top-bar{
+    height: 50px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    display: block !important;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    background-color: white;
+}
+
+.plans-top-bar-title{
+    text-align: center;
+}
+
+.plans-top-bar-icon{
+    position: absolute ;
+    right: 5px;
+    top: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.plans-body{
+    padding-top: 60px;
+    background-color: #fafafa;
+    min-height: 95vh;
+}
+
+.plans-cards{
+    width: 95%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.plans-drawer-icon{
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 20px !important;
+    margin-right: 5px;
+    margin-left: 10%;
+}
+
+.plans-cards-description{
+    font-size: 14px;
+    margin-bottom: -3px;
+    margin-left: 2px;
+}
+
+.plans-cards-name{
+    font-size: 22px;
+}
+
+.plans-drawer-hr{
+    margin-top: 20px;
+}
+
+.plans-cards-pill{
+    margin-right: 7px;
+}

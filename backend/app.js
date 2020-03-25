@@ -16,19 +16,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use((req, res, next) => { next(); });
 
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_NAME}-zzir5.mongodb.net/test?retryWrites=true&w=majority`,(err) => {
-    if (err) throw err;
-    console.log("DB Connected Successfully");
-});
-
-// mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
-//     if (err) throw err;
-//     console.log("DB Connected Successfully");
-// });
+if (process.env.LOCAL === 'true') {
+    mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
+        if (err) throw err;
+        console.log("Local DB Connected Successfully");
+    });
+} else {
+    mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}-zzir5.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
+        if (err) throw err;
+        console.log("Cloud DB Connected Successfully");
+    });
+}
 
 app.listen(process.env.PORT || process.env.port || 5000, () => {
     console.log(`App listening on port ${process.env.PORT || 5000}.`);
 });
+
 
 app.get("/login", login.userLogin);
 
