@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { selectingTask } from '../actions';
 import history from '../history';
-import Badge from 'react-bootstrap/Badge'
+import BBadge from 'react-bootstrap/Badge'
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Drawer from "@material-ui/core/Drawer";
 import List from '@material-ui/core/List';
@@ -49,13 +49,13 @@ class Plans extends React.Component {
                                 <div className="plans-cards-description"> {task.description.toLocaleUpperCase()} </div>
                                 <div className="plans-cards-name"> {task.name} </div>
                                 <div>
-                                    {task.days[0] && <Badge className="plans-cards-pill" pill variant="success" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Mo</div></Badge>}
-                                    {task.days[1] && <Badge className="plans-cards-pill" pill variant="info" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Tu</div></Badge>}
-                                    {task.days[2] && <Badge className="plans-cards-pill" pill variant="dark" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>We</div></Badge>}
-                                    {task.days[3] && <Badge className="plans-cards-pill" pill variant="secondary" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Th</div></Badge>}
-                                    {task.days[4] && <Badge className="plans-cards-pill" pill variant="light" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Fr</div></Badge>}
-                                    {task.days[5] && <Badge className="plans-cards-pill" pill variant="danger" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Sa</div></Badge>}
-                                    {task.days[6] && <Badge className="plans-cards-pill" pill variant="warning" style={{fontWeight:'100', width:'30px'}}><div style={{marginLeft:'-1px'}}>Su</div></Badge>}
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[0] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Mo</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[1] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Tu</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[2] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>We</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[3] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Th</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[4] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Fr</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[5] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Sa</div></BBadge>
+                                    <BBadge className="plans-cards-pill" pill variant={task.days[6] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Su</div></BBadge>
                                 </div>
                             </CardContent>
                         </Card>

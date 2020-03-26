@@ -32,3 +32,8 @@ export const setUserLogin = (login) =>({
     type: 'USER_ID',
     payload: login,
 });
+
+export const setDay = (day) =>({
+    type: 'DAY',
+    payload: day,
+});

@@ -9,8 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import TaskService from '../services/TaskService';
-import { setTasksList, selectingTask } from '../actions';
+import { setTasksList, selectingTask, setTodaysTasksList, setUnfinishedTasksList, setFinishedTasksList } from '../actions';
 import history from '../history';
 
 class EditPlans extends React.Component {
@@ -26,7 +25,7 @@ class EditPlans extends React.Component {
     }
 
     save = () => {
-        const { task, dispatch, userID } = this.props;
+        const { task, dispatch } = this.props;
         const { name, description, groups, days } = this.state;
         const selectedTask = {
             _id: task._id,
@@ -36,20 +35,36 @@ class EditPlans extends React.Component {
             days: days,
             user_id: task.user_id
         }
-        dispatch(selectingTask(selectedTask));  
+        dispatch(selectingTask(selectedTask));
+        this.updateTasksList(selectedTask);
+        this.updateTodaysTasksList(selectedTask);
+
+
+        // history.push("/plans");
+        // window.location.reload();
     }
 
-    updateList(list, id, name, description, groups, days) {
-        for (let i = 0; i < list.length; i++) {
-            if (list[i]._id = id) {
-                list[i].name = name;
-                list[i].description = description;
-                list[i].groups = groups;
-                list[i].days = days;
-                return list;
+    updateTasksList(task) {
+        const id = task._id;
+        const { tasksList, dispatch } = this.props;
+        for (let i = 0; i < tasksList.length; i++) {
+            if (tasksList[i]._id === id) {
+                tasksList[i] = task;
+                dispatch(setTasksList(tasksList));
+                return;
             }
         }
-        return undefined;
+    }
+
+    updateTodaysTasksList(task) {
+        let day = (new Date()).getDay();
+        if (day === 0) day = 7;
+        if(task.days[day-1]){
+
+        }else{
+            
+        }
+
     }
 
     cancel = () => {
@@ -143,6 +158,10 @@ EditPlans.propTypes = {
 const mapStateToProps = (state) => ({
     task: state.selectedTask,
     userID: state.userID,
+    tasksList: state.tasksList,
+    todaysTasksList: state.todaysTasksList,
+    unfinishedTasksList: state.unfinishedTasksList,
+    finishedTasksList: state.finishedTasksList,
 });
 
 export default connect(mapStateToProps)(EditPlans);

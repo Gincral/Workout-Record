@@ -8,7 +8,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from 'react-bootstrap/Button';
 import TaskService from '../services/TaskService';
 import LoginService from '../services/LoginService';
-import { updateLogin, setUserLogin, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList } from '../actions';
+import { updateLogin, setUserLogin, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, setDay } from '../actions';
 import '../styles/login.css';
 
 class Login extends React.Component {
@@ -40,10 +40,22 @@ class Login extends React.Component {
                 dispatch(setUserLogin(data));
                 this.taskService = new TaskService();
                 this.taskService.getTasks(data).then((list) => {
+                    //total list
                     dispatch(setTasksList(list));
-                    dispatch(setTodaysTasksList(list));
+                    // set day
+                    let day = (new Date()).getDay();
+                    if(day === 0) day = 6;
+                    else day -= 1;
+                    dispatch(setDay(day));
+                    //set todays list
+                    const todaysList = [];
+                    list.forEach(element => {
+                        if (element.days[day]) todaysList.push(element);
+                    });
+                    dispatch(setTodaysTasksList(todaysList));
+                    // havent done anything
+                    dispatch(setUnfinishedTasksList(todaysList));
                     dispatch(setFinishedTasksList([]));
-                    dispatch(setUnfinishedTasksList(list));
                     window.location.reload();
                 });
             }

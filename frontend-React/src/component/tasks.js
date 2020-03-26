@@ -7,7 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import '../styles/Tasks.css';
-import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList } from '../actions';
+import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList, setDay } from '../actions';
 import Drawer from "@material-ui/core/Drawer";
 import List from '@material-ui/core/List';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -166,9 +166,28 @@ class Task extends React.Component {
         this.setState({ openDrawer: bool });
     };
 
+    dailyUpdate() {
+        const { day, dispatch, tasksList } = this.props;
+        let today = (new Date()).getDay();
+        if (today === 0) today = 6;
+        else today -= 1;
+        if (today !== day) {
+            dispatch(setDay(today));
+            const todaysList = [];
+            tasksList.forEach(element => {
+                if (element.days[today]) todaysList.push(element);
+            });
+            dispatch(setTodaysTasksList(todaysList));
+            dispatch(setUnfinishedTasksList(todaysList));
+            dispatch(setFinishedTasksList([]));
+            window.location.reload();
+        }
+    }
+
     render() {
         const { array1, array2, openDrawer } = this.state;
         const data = this.generateTime();
+        this.dailyUpdate();
         return (
             <div>
                 <div className='tasks-top-bar'>
@@ -191,7 +210,7 @@ class Task extends React.Component {
                                     <div>
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
-                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-success" size="sm" className='tasks-task-done-btn' onClick={() => { this.finishTask(task) }}><CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-primary" size="sm" className='tasks-task-done-btn' onClick={() => { this.finishTask(task) }}><CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
                                     </div>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
@@ -216,7 +235,7 @@ class Task extends React.Component {
                                     <div>
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
-                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-success" size="sm" className='tasks-task-done-btn' onClick={() => { this.undoTask(task) }}><ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-primary" size="sm" className='tasks-task-done-btn' onClick={() => { this.undoTask(task) }}><ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
                                     </div>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
@@ -235,11 +254,11 @@ class Task extends React.Component {
                         <Drawer anchor={"bottom"} open={openDrawer} onClose={() => { this.toggleDrawer(false) }}>
                             <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
                                 <List>
-                                    
+
                                     <p className="tasks-drawer-user-name">User Name</p>
                                     <hr />
                                     <p className="tasks-drawer-options"><AccessibilityIcon className='tasks-drawer-icon' />Change User Name</p>
-                                    <p className="tasks-drawer-options"><PublishIcon className='tasks-drawer-icon' />Upload Data</p>
+                                    <p className="tasks-drawer-options" onClick={this.update}><PublishIcon className='tasks-drawer-icon' />Upload Data</p>
                                     <p className="tasks-drawer-options"><GetAppIcon className='tasks-drawer-icon' />Download Data</p>
                                     <p className="tasks-drawer-options" onClick={this.logout}><ExitToAppIcon className='tasks-drawer-icon' />log out</p>
                                 </List>
@@ -261,6 +280,7 @@ const mapStateToProps = (state) => ({
     unfinishedTasksList: state.unfinishedTasksList,
     finishedTasksList: state.finishedTasksList,
     tasksList: state.tasksList,
+    day: state.day,
 });
 
 export default connect(mapStateToProps)(Task);
