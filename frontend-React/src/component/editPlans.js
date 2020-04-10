@@ -134,6 +134,41 @@ class EditPlans extends React.Component {
         }
     }
 
+    deleteTask(task){
+        const { tasksList, dispatch, todaysTasksList, finishedTasksList, unfinishedTasksList } = this.props;
+        for(let i=0; i< tasksList.length; i++){
+            if (task._id === tasksList[i]._id){
+                tasksList.splice(i,1);
+                dispatch(setTasksList(tasksList));
+                break;
+            }
+        }
+        for(let i=0; i< todaysTasksList.length; i++){
+            if (task._id === todaysTasksList[i]._id){
+                todaysTasksList.splice(i,1);
+                dispatch(setTodaysTasksList(tasksList));
+                break;
+            }
+        }
+        for(let i=0; i< finishedTasksList.length; i++){
+            if (task._id === finishedTasksList[i]._id){
+                finishedTasksList.splice(i,1);
+                dispatch(setFinishedTasksList(tasksList));
+                break;
+            }
+        }
+        for(let i=0; i< unfinishedTasksList.length; i++){
+            if (task._id === unfinishedTasksList[i]._id){
+                unfinishedTasksList.splice(i,1);
+                dispatch(setUnfinishedTasksList(tasksList));
+                break;
+            }
+        }
+        history.push('/plans');
+        window.location.reload();
+    }
+
+    
     cancel = () => {
         history.push('/plans');
         window.location.reload();
@@ -212,6 +247,7 @@ class EditPlans extends React.Component {
 
     render() {
         const { name, description, groups, days, drawerTimes, drawerDay, groupNumber } = this.state;
+        const { task } = this.props;
         const NumberList = [];
         for (let i = 1; i <= 20; i++) {
             NumberList.push(i);
@@ -284,6 +320,7 @@ class EditPlans extends React.Component {
                         <BBadge className="plans-cards-pill" pill variant={days[6] ? "primary" : "light"} style={{ fontWeight: '100', width: '30px' }}><div style={{ marginLeft: '-1px' }}>Su</div></BBadge>
                     </div>
                 </div>
+                <Button variant="outlined" style={{color:'red', borderColor:'red', width:'90%', marginLeft:"5%", marginTop:'30px'}} onClick={()=>this.deleteTask(task)}>DELETE</Button>
 
             </div>
 
@@ -324,6 +361,7 @@ class EditPlans extends React.Component {
                     </Drawer>
                 </React.Fragment>
             </div>
+
         </div>
 
     }

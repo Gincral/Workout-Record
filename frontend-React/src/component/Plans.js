@@ -6,19 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import { selectingTask } from '../actions';
 import history from '../history';
 import BBadge from 'react-bootstrap/Badge'
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import Drawer from "@material-ui/core/Drawer";
-import List from '@material-ui/core/List';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import EditIcon from '@material-ui/icons/Edit';
 import '../styles/plans.css';
 
 class Plans extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            openDrawer: false
-        }
     }
 
     selectTask = (task) => {
@@ -27,10 +20,6 @@ class Plans extends React.Component {
         history.push("/edit-plans");
         window.location.reload();
     }
-
-    toggleDrawer = (bool) => {
-        this.setState({ openDrawer: bool });
-    };
 
     createNewTask = () =>{
         const { userID, dispatch} = this.props;
@@ -55,13 +44,12 @@ class Plans extends React.Component {
 
     render() {
         const { tasksList } = this.props;
-        const { openDrawer } = this.state;
         return (
             <div>
                 <div className='plans-top-bar'>
                     <br />
                     <h6 className='plans-top-bar-title'> All Plans </h6>
-                    <ListAltIcon className='plans-top-bar-icon' fontSize="large" onClick={() => { this.toggleDrawer(true) }} />
+                    <PlaylistAddIcon className='plans-top-bar-icon' fontSize="large" onClick={this.createNewTask} />
                 </div>
                 <div className='plans-body'>
                     {tasksList.map(task => (
@@ -81,19 +69,6 @@ class Plans extends React.Component {
                             </CardContent>
                         </Card>
                     ))}
-                </div>
-                <div className='plans-drawer'>
-                    <React.Fragment key={"bottom"}>
-                        <Drawer anchor={"bottom"} open={openDrawer} onClose={() => { this.toggleDrawer(false) }}>
-                            <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
-                                <List>
-                                    <hr className="plans-drawer-hr" />
-                                    <p className="plans-drawer-options" onClick={this.createNewTask}><PlaylistAddIcon className='plans-drawer-icon' />Create New Plan</p>
-                                    <p className="plans-drawer-options"><EditIcon className='plans-drawer-icon' />Edit Plans</p>
-                                </List>
-                            </div>
-                        </Drawer>
-                    </React.Fragment>
                 </div>
             </div>
         );
