@@ -1,6 +1,132 @@
 .edit-plans-title-bar{
     height: 50px;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    display: block !important;
+    position: absolute;
     width: 100%;
+    top: 0;
     background-color: white;
-    border-bottom: 1px solid gainsboro;
+}
+
+.edit-plans-title{
+    text-align: center;
+}
+
+.edit-plans-cancel{
+    margin-left: 10px;
+    float: left;
+}
+
+.edit-plans-save{
+    margin-right: 10px;
+    float: right;
+    color: #007bff;
+}
+
+.edit-plans-body{
+    padding-top: 60px;
+    background-color: #fafafa;
+    min-height: 95vh;
+}
+.edit-plans-input{
+    border: transparent;
+    background-color: transparent;
+}
+
+.edit-plans-body-name{
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    text-align: center;
+    height: 80px;
+}
+
+.edit-plans-name-input{
+    bottom: 0;
+    font-size: 20px;
+    text-align: center;
+    width: 90%;
+}
+
+.edit-plans-body-description, .edit-plans-body-group-number{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    height: 40px;
+    /* width: 95%; */
+    margin: auto;
+}
+
+.edit-plans-description-input{
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.edit-plans-tag{
+    margin: auto;
+    margin-left: 5% !important;
+    font-size: 14px;
+}
+
+.edit-plans-change-group-number{
+    margin-top: -22px;
+    margin-left: 120px;
+    font-size: 12px;
+    color: #007bff;
+}
+
+.edit-plans-body-group-number, .edit-plans-body-group, .edit-plans-body-days{
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.edit-plans-body-group-title, .edit-plans-body-days-title{
+    text-align: center;
+    height: 40px;
+    color: #007bff;
+    padding-top: 8px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.edit-plans-panel{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    height: 40px;
+}
+
+.edit-plans-panel-input{
+    border: transparent;
+    background-color: transparent;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+} 
+
+.edit-plans-btn-group-btn{
+    margin: auto !important;
+    width: 90% !important;
+    font-size: x-small !important;
+    margin-top: 5px !important;
+    margin-left: 5% !important;
+}
+
+.edit-plans-drawer-times-list{
+    max-height: 500px;
+}
+
+.edit-plans-drawer-times-title{
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+.edit-plans-drawer-times-number-list{
+    height: 350px;
+    overflow: scroll;
+    margin-bottom: 30px;
+}
+
+.edit-plans-drawer-times-btn{
+    width: 95% !important;
+    margin: auto !important;
+}
+
+.edit-plans-drawer-days-list{
+    margin-bottom: 50px !important;
 }

@@ -210,7 +210,13 @@ class Task extends React.Component {
                                     <div>
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
-                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-primary" size="sm" className='tasks-task-done-btn' onClick={() => { this.finishTask(task) }}><CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                        <div style={{ width: "310px", float: 'right' }}>
+                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn' 
+                                            onClick={(e) => {e.stopPropagation(); this.finishTask(task)}}
+                                            onFocus={(e) => {e.stopPropagation()}}>
+                                                <CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
@@ -235,7 +241,13 @@ class Task extends React.Component {
                                     <div>
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
-                                        <div style={{ width: "310px", float: 'right' }}><Button variant="outline-primary" size="sm" className='tasks-task-done-btn' onClick={() => { this.undoTask(task) }}><ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} /></Button></div>
+                                        <div style={{ width: "310px", float: 'right' }}>
+                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn' 
+                                            onClick={(e) => {e.stopPropagation(); this.undoTask(task)}}
+                                            onFocus={(e) => {e.stopPropagation()}}>
+                                                <ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
@@ -255,7 +267,7 @@ class Task extends React.Component {
                             <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
                                 <List>
 
-                                    <p className="tasks-drawer-user-name">User Name</p>
+                                    <p className="tasks-drawer-user-name">❤️❤️ Nina ❤️❤️</p>
                                     <hr />
                                     <p className="tasks-drawer-options"><AccessibilityIcon className='tasks-drawer-icon' />Change User Name</p>
                                     <p className="tasks-drawer-options" onClick={this.update}><PublishIcon className='tasks-drawer-icon' />Upload Data</p>

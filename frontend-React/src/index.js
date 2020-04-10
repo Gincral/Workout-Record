@@ -15,7 +15,7 @@ const store = createStore(
 store.subscribe(() => {
     saveState({
         tasksList: store.getState().tasksList,
-        todaysTasksList: store.getState.todaysTasksList,
+        todaysTasksList: store.getState().todaysTasksList,
         selectedTask: store.getState().selectedTask,
         unfinishedTasksList: store.getState().unfinishedTasksList,
         finishedTasksList: store.getState().finishedTasksList,

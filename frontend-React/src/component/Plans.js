@@ -32,6 +32,27 @@ class Plans extends React.Component {
         this.setState({ openDrawer: bool });
     };
 
+    createNewTask = () =>{
+        const { userID, dispatch} = this.props;
+        const newTask = {
+            _id: "n"+ (new Date()).getTime(),
+            name: '',
+            description: '',
+            groups:[{
+                times: 0,
+                weight: 0,
+                unit: 'lbs',
+                note: ''
+            }],
+            days: [false, false, false, false, false, false, false],
+            user_id: userID
+        }
+        dispatch(selectingTask(newTask));
+        console.log(newTask);
+        history.push("/edit-plans");
+        window.location.reload();
+    }
+
     render() {
         const { tasksList } = this.props;
         const { openDrawer } = this.state;
@@ -67,7 +88,7 @@ class Plans extends React.Component {
                             <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
                                 <List>
                                     <hr className="plans-drawer-hr" />
-                                    <p className="plans-drawer-options"><PlaylistAddIcon className='plans-drawer-icon' />Create New Plan</p>
+                                    <p className="plans-drawer-options" onClick={this.createNewTask}><PlaylistAddIcon className='plans-drawer-icon' />Create New Plan</p>
                                     <p className="plans-drawer-options"><EditIcon className='plans-drawer-icon' />Edit Plans</p>
                                 </List>
                             </div>
@@ -85,6 +106,7 @@ Plans.propTypes = {
 
 const mapStateToProps = (state) => ({
     tasksList: state.tasksList,
+    userID: state.userID,
 });
 
 export default connect(mapStateToProps)(Plans);
