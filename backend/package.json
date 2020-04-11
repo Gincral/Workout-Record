@@ -19,7 +19,9 @@
     "package-clean": "rm -rf ./tap_package_dir && mkdir tap_package_dir",
     "package-master": "cp -rf ./app.js src *.json ./tap_package_dir",
     "package-dev": "cp -rf ./app.js src *.json ./tap_package_dir",
-    "package-sandbox": "cp -rf ./app.js src *.json ./tap_package_dir"
+    "package-sandbox": "cp -rf ./app.js src *.json ./tap_package_dir",
+    "docker-build": "docker build -t wr-backend",
+    "docker-run": "docker run -p 5000:5000 wr-backend"
   },
   "repository": {
     "type": "git",
