@@ -87,7 +87,7 @@ class Login extends React.Component {
                 <Button className="login-submit-btn" color="primary" onClick={() => { this.login(login, password) }}>Log In</Button>
                 </div>
                 <hr />
-                <div className="login-sign-up">Dont have an account? <a href='https://github.com/Gincral'>Sign Up</a>.</div>
+                <div className="login-sign-up">Dont have an account? <a href='/sign-up'>Sign Up</a>.</div>
 
             </div>
         )

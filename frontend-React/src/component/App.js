@@ -10,13 +10,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Login from './Login';
 import history from '../history';
-
-
-// const some = () => (
-//     <div>
-//         <Calendar />
-//     </div>
-// );
+import SignUp from './SignUp';
 
 class App extends React.Component {
 
@@ -39,6 +33,7 @@ class App extends React.Component {
                         </Switch>}
                         {!login && <Switch>
                             <Route path="/" exact component={Login} />
+                            <Route path="/sign-up" exact component={SignUp} />
                         </Switch>}
                     </BrowserRouter>
                 </div>
