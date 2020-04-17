@@ -4,12 +4,7 @@ async function getUsers(req, res, next) {
     console.log("/get user");
     const params = req.query;
     try {
-        let foundUser;
-        if (params._id) {
-            foundUser = await user.find({ _id: params._id });
-        } else {
-            foundUser = await user.find();
-        }
+        const foundUser = await user.find({ _id: params._id });
         res.json(foundUser);
     } catch (err) {
         res.json({ message: err });

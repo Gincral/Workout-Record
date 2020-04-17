@@ -32,7 +32,7 @@ app.listen(process.env.PORT || process.env.port || 5000, () => {
     console.log(`App listening on port ${process.env.PORT || 5000}.`);
 });
 
-
+app.get("/health-check", login.healthCheck);
 app.get("/login", login.userLogin);
 
 app.get("/user", user.getUsers);

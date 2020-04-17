@@ -12,6 +12,16 @@ async function userLogin(req, res, next) {
     }
 }
 
+async function healthCheck(req, res, next) {
+    console.log("/Check");
+    try {
+        res.json("Healthy AF :3");
+    } catch (err) {
+        res.json("error");
+    }
+}
+
 module.exports = {
     userLogin,
+    healthCheck,
 };
