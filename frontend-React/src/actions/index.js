@@ -37,3 +37,8 @@ export const setDay = (day) =>({
     type: 'DAY',
     payload: day,
 });
+
+export const deleteTask = (list) =>({
+    type: 'DELETE_TASK',
+    payload: list,
+});

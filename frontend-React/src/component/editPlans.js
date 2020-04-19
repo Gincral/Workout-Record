@@ -9,7 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import { setTasksList, selectingTask, setTodaysTasksList, setUnfinishedTasksList, setFinishedTasksList } from '../actions';
+import { setTasksList, selectingTask, setTodaysTasksList, setUnfinishedTasksList, setFinishedTasksList, deleteTask } from '../actions';
 import history from '../history';
 import Drawer from "@material-ui/core/Drawer";
 import List from '@material-ui/core/List';
@@ -135,7 +135,13 @@ class EditPlans extends React.Component {
     }
 
     deleteTask(task){
-        const { tasksList, dispatch, todaysTasksList, finishedTasksList, unfinishedTasksList } = this.props;
+
+        const { tasksList, dispatch, todaysTasksList, finishedTasksList, unfinishedTasksList, deleteTasksList } = this.props;
+        if(task._id[0] !== 'n'){
+            deleteTasksList.push(task._id);
+            dispatch(deleteTask(deleteTasksList));
+        }
+
         for(let i=0; i< tasksList.length; i++){
             if (task._id === tasksList[i]._id){
                 tasksList.splice(i,1);
@@ -379,6 +385,7 @@ const mapStateToProps = (state) => ({
     todaysTasksList: state.todaysTasksList,
     unfinishedTasksList: state.unfinishedTasksList,
     finishedTasksList: state.finishedTasksList,
+    deleteTasksList: state.deleteTasksList,
 });
 
 export default connect(mapStateToProps)(EditPlans);

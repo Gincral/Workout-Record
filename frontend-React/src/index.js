@@ -22,6 +22,7 @@ store.subscribe(() => {
         login: store.getState().login,
         userID: store.getState().userID,
         day: store.getState().day,
+        deleteTasksList: store.getState().deleteTasksList,
     });
 });
 
