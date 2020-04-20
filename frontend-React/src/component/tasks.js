@@ -7,7 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import '../styles/Tasks.css';
-import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList, setDay } from '../actions';
+import { setFinishedTasksList, updateLogin, setUnfinishedTasksList, setTodaysTasksList, setDay, setTasksList, deleteTask } from '../actions';
 import Drawer from "@material-ui/core/Drawer";
 import List from '@material-ui/core/List';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -16,9 +16,10 @@ import Button from 'react-bootstrap/Button';
 import CheckIcon from '@material-ui/icons/Check';
 import ReplayIcon from '@material-ui/icons/Replay';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import TaskService from '../services/TaskService';
 
 class Task extends React.Component {
 
@@ -31,6 +32,7 @@ class Task extends React.Component {
             array2: this.props.finishedTasksList,
             userName: this.props.userName,
         }
+        this.taskService = new TaskService();
     }
 
     generateTime = () => {
@@ -98,7 +100,6 @@ class Task extends React.Component {
                 month = "December";
                 break;
         }
-        console.log(day);
         const date = month + " " + DATE.getDate() + ", " + DATE.getFullYear();
         return [day.toLocaleUpperCase(), date];
 
@@ -165,7 +166,7 @@ class Task extends React.Component {
 
     toggleDrawer = (bool) => {
         this.setState({ openDrawer: bool });
-    };
+    }
 
     dailyUpdate() {
         const { day, dispatch, tasksList } = this.props;
@@ -185,6 +186,39 @@ class Task extends React.Component {
         }
     }
 
+    update = () => {
+        const { userID, tasksList, dispatch, deleteTasksList } = this.props;
+        this.taskService.getTasks(userID).then((list) => {
+            for (let i = 0; i < tasksList.length; i++) {
+                let find = false;
+                for (let j = 0; j < list.length; j++) {
+                    if (tasksList[i]._id === list[j]._id) {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find) {
+                    this.taskService.postTask(tasksList[i].name, tasksList[i].description, tasksList[i].groups, tasksList[i].days, userID).then(res => {
+                        console.log('Post Tasks: ', res);
+                    });
+                }
+            };
+        }).then(() => {
+            deleteTasksList.forEach(id => {
+                this.taskService.deleteTask(id).then(res => {
+                    console.log('Delete Tasks: ', res);
+                });
+            });
+            dispatch(deleteTask([]));
+        });
+    }
+
+    download = () =>{
+        const { userID, dispatch } = this.props;
+        this.taskService.getTasks(userID).then((list) => {
+            dispatch(setTasksList(list));
+        });
+    }
     render() {
         const { array1, array2, openDrawer } = this.state;
         const data = this.generateTime();
@@ -212,9 +246,9 @@ class Task extends React.Component {
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
                                         <div style={{ width: "310px", float: 'right' }}>
-                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn' 
-                                            onClick={(e) => {e.stopPropagation(); this.finishTask(task)}}
-                                            onFocus={(e) => {e.stopPropagation()}}>
+                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn'
+                                                onClick={(e) => { e.stopPropagation(); this.finishTask(task) }}
+                                                onFocus={(e) => { e.stopPropagation() }}>
                                                 <CheckIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} />
                                             </Button>
                                         </div>
@@ -243,9 +277,9 @@ class Task extends React.Component {
                                         <div className='tasks-task-description'> {task.description.toLocaleUpperCase()}</div>
                                         <div className='tasks-task-name'> {task.name} </div>
                                         <div style={{ width: "310px", float: 'right' }}>
-                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn' 
-                                            onClick={(e) => {e.stopPropagation(); this.undoTask(task)}}
-                                            onFocus={(e) => {e.stopPropagation()}}>
+                                            <Button variant="outline-primary" size="sm" className='tasks-task-done-btn'
+                                                onClick={(e) => { e.stopPropagation(); this.undoTask(task) }}
+                                                onFocus={(e) => { e.stopPropagation() }}>
                                                 <ReplayIcon fontSize='inherit' style={{ marginTop: '-20px', marginLeft: '-6px' }} />
                                             </Button>
                                         </div>
@@ -271,8 +305,9 @@ class Task extends React.Component {
                                     <p className="tasks-drawer-user-name">{ this.state.userName }</p>
                                     <hr />
                                     <p className="tasks-drawer-options"><AccessibilityIcon className='tasks-drawer-icon' />Change User Name</p>
+
                                     <p className="tasks-drawer-options" onClick={this.update}><PublishIcon className='tasks-drawer-icon' />Upload Data</p>
-                                    <p className="tasks-drawer-options"><GetAppIcon className='tasks-drawer-icon' />Download Data</p>
+                                    <p className="tasks-drawer-options" onClick={this.download}><GetAppIcon className='tasks-drawer-icon' />Download Data</p>
                                     <p className="tasks-drawer-options" onClick={this.logout}><ExitToAppIcon className='tasks-drawer-icon' />log out</p>
                                 </List>
                             </div>
@@ -295,6 +330,8 @@ const mapStateToProps = (state) => ({
     tasksList: state.tasksList,
     day: state.day,
     userName: state.userName,
+    userID: state.userID,
+    deleteTasksList: state.deleteTasksList,
 });
 
 export default connect(mapStateToProps)(Task);

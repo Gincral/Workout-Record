@@ -8,7 +8,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from 'react-bootstrap/Button';
 import TaskService from '../services/TaskService';
 import LoginService from '../services/LoginService';
-import { updateLogin, setUserLogin, setUserName, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, setDay } from '../actions';
+import { updateLogin, setUserLogin, setUserName, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, setDay, deleteTask } from '../actions';
 import '../styles/login.css';
 
 class Login extends React.Component {
@@ -58,6 +58,7 @@ class Login extends React.Component {
                     // havent done anything
                     dispatch(setUnfinishedTasksList(todaysList));
                     dispatch(setFinishedTasksList([]));
+                    dispatch(deleteTask([]));
                     window.location.reload();
                 });
             }
@@ -90,7 +91,7 @@ class Login extends React.Component {
                 <Button className="login-submit-btn" color="primary" onClick={() => { this.login(login, password) }}>Log In</Button>
                 </div>
                 <hr />
-                <div className="login-sign-up">Dont have an account? <a href='/sign-up'>Sign Up</a>.</div>
+                <div className="login-sign-up">Dont have an account? <a href='/sign-up'>Sign Up</a></div>
 
             </div>
         )
