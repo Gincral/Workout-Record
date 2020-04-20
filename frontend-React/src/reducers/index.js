@@ -7,7 +7,9 @@ import setUnfinishedTasksListRducer from './setUnfinishedTasksListReducer';
 import updateLoginReducer from './updateLoginReducer';
 import setUserIDReducer from './setUserIDReducer';
 import setDayReducer from './setDayReducer';
+import setUserNameReducer from './setUserNameReducer';
 import deleteTasksListReducer from './deleteTasksListReducer';
+
 
 export default combineReducers({
     tasksList: setTasksListReducer,
@@ -17,6 +19,7 @@ export default combineReducers({
     finishedTasksList: setFinishedTasksListReducer,
     login: updateLoginReducer,
     userID: setUserIDReducer,
+    userName: setUserNameReducer,
     day: setDayReducer,
     deleteTasksList: deleteTasksListReducer,
 });
