@@ -37,8 +37,8 @@ app.get("/login", login.userLogin);
 app.get("/username", login.username);
 
 app.get("/user", user.getUsers);
-app.get("/allusers", user.getAllUsers);
 app.post("/user", user.createUsers);
+// app.get("/all-users", user.getAllUsers);
 
 app.get("/task", task.getTasks);
 app.post("/task", task.createTasks);
