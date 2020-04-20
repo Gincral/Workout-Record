@@ -11,6 +11,18 @@ async function getUsers(req, res, next) {
     }
 }
 
+async function getAllUsers(req, res, next) {
+    console.log("/get all users");
+    const params = req.query;
+    try {
+        let foundUser;
+        foundUser = await user.find();
+        res.json(foundUser);
+    } catch (err) {
+        res.json({ message: err});
+    }
+}
+
 async function createUsers(req, res, next) {
     console.log("/create user");
     const body = req.body;
@@ -30,4 +42,5 @@ async function createUsers(req, res, next) {
 module.exports = {
     getUsers,
     createUsers,
+    getAllUsers,
 };
