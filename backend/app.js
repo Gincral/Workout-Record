@@ -34,8 +34,10 @@ app.listen(process.env.PORT || process.env.port || 5000, () => {
 
 app.get("/health-check", login.healthCheck);
 app.get("/login", login.userLogin);
+app.get("/username", login.username);
 
 app.get("/user", user.getUsers);
+app.get("/allusers", user.getAllUsers);
 app.post("/user", user.createUsers);
 
 app.get("/task", task.getTasks);

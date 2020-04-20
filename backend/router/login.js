@@ -12,6 +12,18 @@ async function userLogin(req, res, next) {
     }
 }
 
+async function username(req, res, next) {
+    console.log("/username");
+    const params = req.query;
+    try {
+        let foundUser;
+        foundUser = await user.find ({ _id: params._id });
+        res.json(foundUser[0].username);
+    } catch (err) {
+        res.json("error");
+    }
+}
+
 async function healthCheck(req, res, next) {
     console.log("/Check");
     try {
@@ -24,4 +36,5 @@ async function healthCheck(req, res, next) {
 module.exports = {
     userLogin,
     healthCheck,
+    username,
 };

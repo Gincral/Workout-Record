@@ -30,6 +30,7 @@ class Task extends React.Component {
             openDrawer: false,
             array1: this.props.unfinishedTasksList,
             array2: this.props.finishedTasksList,
+            userName: this.props.userName,
         }
         this.taskService = new TaskService();
     }
@@ -301,7 +302,7 @@ class Task extends React.Component {
                             <div role="presentation" onClick={() => { this.toggleDrawer(false) }} onKeyDown={() => { this.toggleDrawer(false) }} >
                                 <List>
 
-                                    <p className="tasks-drawer-user-name">❤️❤️ Nina ❤️❤️</p>
+                                    <p className="tasks-drawer-user-name">{ this.state.userName }</p>
                                     <hr />
                                     <p className="tasks-drawer-options"><AccessibilityIcon className='tasks-drawer-icon' />Change User Name</p>
 
@@ -328,6 +329,7 @@ const mapStateToProps = (state) => ({
     finishedTasksList: state.finishedTasksList,
     tasksList: state.tasksList,
     day: state.day,
+    userName: state.userName,
     userID: state.userID,
     deleteTasksList: state.deleteTasksList,
 });

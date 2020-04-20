@@ -8,7 +8,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from 'react-bootstrap/Button';
 import TaskService from '../services/TaskService';
 import LoginService from '../services/LoginService';
-import { updateLogin, setUserLogin, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, setDay, deleteTask } from '../actions';
+import { updateLogin, setUserLogin, setUserName, setTasksList, setTodaysTasksList, setFinishedTasksList, setUnfinishedTasksList, setDay, deleteTask } from '../actions';
 import '../styles/login.css';
 
 class Login extends React.Component {
@@ -32,12 +32,14 @@ class Login extends React.Component {
     login = (login, password) => {
         const { dispatch } = this.props;
         this.loginService.getUserId(login, password).then((data) => {
+            this.loginService.getUserName(data).then((username) => {
             console.log(data);
             if (data === "error") {
                 console.log("cant login");
             } else {
                 dispatch(updateLogin(true));
                 dispatch(setUserLogin(data));
+                dispatch(setUserName(username));
                 this.taskService = new TaskService();
                 this.taskService.getTasks(data).then((list) => {
                     //total list
@@ -60,6 +62,7 @@ class Login extends React.Component {
                     window.location.reload();
                 });
             }
+            });
         });
     }
 
@@ -102,6 +105,7 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => ({
     userID: state.userID,
+    userName: state.userName,
 });
 
 export default connect(mapStateToProps)(Login);

@@ -21,6 +21,7 @@ store.subscribe(() => {
         finishedTasksList: store.getState().finishedTasksList,
         login: store.getState().login,
         userID: store.getState().userID,
+        userName: store.getState().userName,
         day: store.getState().day,
         deleteTasksList: store.getState().deleteTasksList,
     });
