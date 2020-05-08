@@ -1,7 +1,9 @@
 const task = require("./router/tasks");
 const user = require("./router/users");
 const login = require("./router/login");
+const record = require("./router/records")
 
+const multer = require("multer")
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -15,6 +17,17 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use((req, res, next) => { next(); });
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __dirname + '/router/records_photos')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+});
+
+var upload = multer({storage: storage});
 
 if (process.env.LOCAL === 'true') {
     mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, (err) => {
@@ -38,8 +51,12 @@ app.get("/username", login.username);
 
 app.get("/user", user.getUsers);
 app.post("/user", user.createUsers);
-// app.get("/all-users", user.getAllUsers);
+app.get("/all-users", user.getAllUsers);
 
 app.get("/task", task.getTasks);
 app.post("/task", task.createTasks);
 app.delete("/task", task.deleteTasks);
+
+app.get("/record", record.getRecords);
+app.post("/record", upload.array('photos', 3), record.createRecords);
+app.delete("/record", record.deleteRecords);
